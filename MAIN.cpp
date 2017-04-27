@@ -18,7 +18,7 @@ using namespace std;
 double xPosition = 0, yPosition = 0, zPosition = 1;
 
 bool LineFlag = false;
-bool isBiquaratic, additionalNodes;
+bool isBiquaratic = false, additionalNodes;
 
 Palitra palitra;
 Grid grid;
@@ -32,58 +32,10 @@ enum keys { Empty, KeyR, KeyG, KeyB, KeyW, KeyA, KeyS, KeyD, KeyU,KeyI };
 /* Функция вывода на экран */
 void Display()
 {
-	int r, g, b;
-	glClearColor(0.2, 0.2, 0.2, 1); glClear(GL_COLOR_BUFFER_BIT);
-	glLoadIdentity();
-	//glFrustum(-1, 1, -1, 1, 1, 10);
-	glTranslatef(xPosition, yPosition, 0);
-	glScaled(5000 * zPosition, 5000 * zPosition, 1);
-	glColor3ub(ColorR, ColorG, ColorB);
-	glPointSize(PointSize);
-	glLineWidth(1);
-
-
-	if (LineFlag)
-		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	if (isBiquaratic)
+		grid.displayBiqudraticGrid();
 	else
-		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-
-	for (int k = 0; k < grid.finit_elements.size(); ++k)
-	{
-			glBegin(GL_QUADS);
-			palitra.color(r, g, b, x[grid.finit_elements[k].top_left]);
-			glColor3ub(r, g, b);
-			glVertex2f(grid.vertexes[grid.finit_elements[k].top_left].x * 1, grid.vertexes[grid.finit_elements[k].top_left].y * 1);
-			palitra.color(r, g, b, x[grid.finit_elements[k].top_right]);
-			glColor3ub(r, g, b);
-			glVertex2f(grid.vertexes[grid.finit_elements[k].top_right].x * 1, grid.vertexes[grid.finit_elements[k].top_right].y * 1);
-			palitra.color(r, g, b, x[grid.finit_elements[k].bottom_right]);
-			glColor3ub(r, g, b);
-			glVertex2f(grid.vertexes[grid.finit_elements[k].bottom_right].x * 1, grid.vertexes[grid.finit_elements[k].bottom_right].y * 1);
-			palitra.color(r, g, b, x[grid.finit_elements[k].bottom_left]);
-			glColor3ub(r, g, b);
-			glVertex2f(grid.vertexes[grid.finit_elements[k].bottom_left].x * 1, grid.vertexes[grid.finit_elements[k].bottom_left].y * 1);
-			glEnd();
-	}
-
-	if (!LineFlag)
-	{
-		glColor3ub(0, 0, 0);
-		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-		for (int k = 0; k < grid.finit_elements.size(); ++k)
-		{
-			glBegin(GL_QUADS);
-			glVertex2f(grid.vertexes[grid.finit_elements[k].top_left].x * 1, grid.vertexes[grid.finit_elements[k].top_left].y * 1);
-			glVertex2f(grid.vertexes[grid.finit_elements[k].top_right].x * 1, grid.vertexes[grid.finit_elements[k].top_right].y * 1);
-			glVertex2f(grid.vertexes[grid.finit_elements[k].bottom_right].x * 1, grid.vertexes[grid.finit_elements[k].bottom_right].y * 1);
-			glVertex2f(grid.vertexes[grid.finit_elements[k].bottom_left].x * 1, grid.vertexes[grid.finit_elements[k].bottom_left].y * 1);
-			glEnd();
-		}
-	}
-	lines.Drow();
-	glEnd();
-
-	glFinish();
+		grid.displayBilinearGrid();
 }
 
 /* Функция изменения размеров окна */
@@ -186,21 +138,8 @@ void Keyboard(unsigned char key, int x, int y)
 void main(int argc, char *argv[])
 {
 	ifstream in("F.txt");
-	double buf, max;
-	x.reserve(1550);
-	in >> max;
-	buf = max;
-	x.push_back(max);
-	while (!in.eof())
-	{
-		if (buf > max) { max = buf; }
-		in >> buf;
-		x.push_back(buf);
-	}
-	in.close();
-	lines.inputLines();
-	palitra.make(max);
-	grid.inputGrid();
+	grid.inputGrid(in);
+	palitra.make(grid);
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_RGB);
 	glutInitWindowSize(Width, Height);

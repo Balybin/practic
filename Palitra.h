@@ -6,13 +6,21 @@ class Palitra
 {
 public:
 	double red, blue, yellow, orange, green, minblue;
-	void make(double max)
+	void make(Grid grid)
 	{
+		double max, min;
+		max = grid.U[0];
+		min = grid.U[0];
+		for (int i = 1; i < grid.U.size(); ++i)
+		{
+			if (grid.U[i] > max)	max = grid.U[i];
+			if (grid.U[i] < min)	min = grid.U[i];
+		}
 		red = max;
-		minblue = -max;
+		minblue = min;
 		green = 0;
 		yellow = max / 2;
-		blue = -yellow;
+		blue = min / 2;
 	}
 
 	void color(int &r, int &g, int &b, double value)

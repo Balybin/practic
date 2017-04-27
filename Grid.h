@@ -22,5 +22,5 @@ public:
 	void Grid::displayBilinearGrid();
 	void Grid::displayBiqudraticGrid();
 	int calculatePosistion(int i, int j);
-	void inputGrid(fstream in);
+	void inputGrid(ifstream in);
 };

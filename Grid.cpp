@@ -20,7 +20,7 @@ int Grid::calculatePosistion(int i, int j)
 	else
 		return -1;
 }
-void Grid::inputGrid(fstream in)
+void Grid::inputGrid(ifstream in)
 {
 	if (!in.is_open())
 	{
@@ -72,17 +72,17 @@ void Grid::displayBilinearGrid()
 
 	for (int j = 0; j < m; ++j)
 	{
-		for(int i=0; i < n; ++i)
+		for (int i = 0; i < n; ++i)
 		{
 			glBegin(GL_QUADS);
 			palitra.color(r, g, b, U[calculatePosistion(i, j)]);
 			glVertex2f(X[i], Y[j]);
 			palitra.color(r, g, b, U[calculatePosistion(i + 1, j)]);
 			glVertex2f(X[i + 1], Y[j]);
-			palitra.color(r, g, b, U[calculatePosistion(i, j + 1)]);
-			glVertex2f(X[i], Y[j + 1]);
 			palitra.color(r, g, b, U[calculatePosistion(i + 1, j + 1)]);
 			glVertex2f(X[i + 1], Y[j + 1]);
+			palitra.color(r, g, b, U[calculatePosistion(i, j + 1)]);
+			glVertex2f(X[i], Y[j + 1]);
 			glEnd();
 		}
 	}
@@ -97,8 +97,8 @@ void Grid::displayBilinearGrid()
 				glBegin(GL_QUADS);
 				palitra.color(r, g, b, U[calculatePosistion(i, j)]);
 				palitra.color(r, g, b, U[calculatePosistion(i + 1, j)]);
-				palitra.color(r, g, b, U[calculatePosistion(i, j + 1)]);
 				palitra.color(r, g, b, U[calculatePosistion(i + 1, j + 1)]);
+				palitra.color(r, g, b, U[calculatePosistion(i, j + 1)]);
 				glEnd();
 			}
 		}
@@ -108,5 +108,97 @@ void Grid::displayBilinearGrid()
 
 void Grid::displayBiqudraticGrid()
 {
+	int r, g, b;
+	int n = X.size() - 2, m = Y.size() - 2;
+	glClearColor(0.2, 0.2, 0.2, 1); glClear(GL_COLOR_BUFFER_BIT);
+	glLoadIdentity();
+	glTranslatef(xPosition, yPosition, 0);
+	glScaled(5000 * zPosition, 5000 * zPosition, 1);
+	glColor3ub(ColorR, ColorG, ColorB);
+	glPointSize(PointSize);
+	glLineWidth(1);
 
+	if (LineFlag)
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	else
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+
+	for (int j = 0; j < m; ++j)
+	{
+		for (int i = 0; i < n; ++i)
+		{
+			glBegin(GL_QUADS);
+			palitra.color(r, g, b, U[calculatePosistion(i, j)]);
+			glVertex2f(X[i], Y[j]);
+			palitra.color(r, g, b, U[calculatePosistion(i + 1, j)]);
+			glVertex2f(X[i + 1], Y[j]);
+			palitra.color(r, g, b, U[calculatePosistion(i, j + 1)]);
+			glVertex2f(X[i + 1], Y[j + 1]);
+			palitra.color(r, g, b, U[calculatePosistion(i + 1, j + 1)]);
+			glVertex2f(X[i + 1], Y[j + 1]);
+			palitra.color(r, g, b, U[calculatePosistion(i + 1, j)]);
+			glVertex2f(X[i + 1], Y[j]);
+			palitra.color(r, g, b, U[calculatePosistion(i + 2, j)]);
+			glVertex2f(X[i + 2], Y[j]);
+			palitra.color(r, g, b, U[calculatePosistion(i + 1, j + 1)]);
+			glVertex2f(X[i + 1], Y[j + 1]);
+			palitra.color(r, g, b, U[calculatePosistion(i + 2, j + 1)]);
+			glVertex2f(X[i + 2], Y[j + 1]);
+			palitra.color(r, g, b, U[calculatePosistion(i, j + 1)]);
+			glVertex2f(X[i], Y[j + 1]);
+			palitra.color(r, g, b, U[calculatePosistion(i + 1, j + 1)]);
+			glVertex2f(X[i + 1], Y[j + 1]);
+			palitra.color(r, g, b, U[calculatePosistion(i, j + 2)]);
+			glVertex2f(X[i + 1], Y[j + 2]);
+			palitra.color(r, g, b, U[calculatePosistion(i + 1, j + 2)]);
+			glVertex2f(X[i + 1], Y[j + 2]);
+			palitra.color(r, g, b, U[calculatePosistion(i + 1, j + 1)]);
+			glVertex2f(X[i + 1], Y[j + 1]);
+			palitra.color(r, g, b, U[calculatePosistion(i + 2, j + 1)]);
+			glVertex2f(X[i + 2], Y[j + 1]);
+			palitra.color(r, g, b, U[calculatePosistion(i + 2, j + 2)]);
+			glVertex2f(X[i + 2], Y[j + 2]);
+			palitra.color(r, g, b, U[calculatePosistion(i + 1, j + 2)]);
+			glVertex2f(X[i + 1], Y[j + 2]);
+			glEnd();
+		}
+	}
+	if (!LineFlag)
+	{
+		glColor3ub(0, 0, 0);
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		for (int j = 0; j < m; ++j)
+		{
+			for (int i = 0; i < n; ++i)
+			{
+				glBegin(GL_QUADS);
+				palitra.color(r, g, b, U[calculatePosistion(i, j)]);
+				palitra.color(r, g, b, U[calculatePosistion(i + 2, j)]);
+				palitra.color(r, g, b, U[calculatePosistion(i + 2, j + 2)]);
+				palitra.color(r, g, b, U[calculatePosistion(i, j + 2)]);
+				glEnd();
+			}
+		}
+		if (additionalNodes)
+		{
+			glEnable(GL_LINE_STIPPLE);
+			glLineStipple(1, 0x00F0);
+			for (int j = 0; j < m; ++j)
+			{
+				for (int i = 0; i < n; ++i)
+				{
+					glBegin(GL_LINES);
+					glVertex2f(X[i + 1], Y[j]);
+					glVertex2f(X[i + 1], Y[j + 2]);
+					glEnd();
+					glBegin(GL_LINES);
+					glVertex2f(X[i], Y[j + 1]);
+					glVertex2f(X[i + 2], Y[j + 1]);
+					glEnd();
+				}
+			}
+			glDisable(GL_LINE_STIPPLE);
+		}
+	}
+	glFinish();
 }
