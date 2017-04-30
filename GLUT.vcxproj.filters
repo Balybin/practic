@@ -15,14 +15,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="F.txt">
-      <Filter>Файлы ресурсов</Filter>
-    </Text>
-    <Text Include="lines.txt">
-      <Filter>Файлы ресурсов</Filter>
-    </Text>
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="glut.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
@@ -52,5 +44,10 @@
     <ClCompile Include="MAIN.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="result.txt">
+      <Filter>Файлы ресурсов</Filter>
+    </Text>
   </ItemGroup>
 </Project>
