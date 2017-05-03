@@ -46,7 +46,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="result.txt">
+    <Text Include="biquad.txt">
       <Filter>Файлы ресурсов</Filter>
     </Text>
   </ItemGroup>

@@ -3,12 +3,13 @@
 #include "glut.h"
 #include "Palitra.h"
 
-extern bool LineFlag, isBiquaratic, additionalNodes;
+extern bool LineFlag, isBiquaratic, additionalNodes,osiFlag;
 extern double xPosition, yPosition, zPosition;
 extern GLint Width, Height;
 extern GLubyte ColorR, ColorG, ColorB;
 extern GLubyte PointSize;
 extern Palitra palitra;
+extern void renderBitmapString(float x, float y, void *font, string str);
 
 int Grid::calculatePosistion(int i, int j)
 {
@@ -57,14 +58,6 @@ void Grid::displayBilinearGrid()
 {
 	int r, g, b;
 	int n = X.size() - 1, m = Y.size() - 1;
-	glClearColor(0.2, 0.2, 0.2, 1); glClear(GL_COLOR_BUFFER_BIT);
-	glLoadIdentity();
-	glTranslatef(xPosition, yPosition, 0);
-	glScaled(5000 * zPosition, 5000 * zPosition, 1);
-	glColor3ub(ColorR, ColorG, ColorB);
-	glPointSize(PointSize);
-	glLineWidth(1);
-
 	if (LineFlag)
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	else
@@ -107,21 +100,26 @@ void Grid::displayBilinearGrid()
 			}
 		}
 	}
-	glFinish();
+	glColor3ub(0, 0, 0);
+	if (osiFlag)
+	{
+		for (int i = 0; i < X.size(); i ++)
+		{
+			renderBitmapString(X[i], Y[0] - 0.1, GLUT_BITMAP_HELVETICA_10, to_string(X[i]));
+		}
+
+		for (int i = 0; i < Y.size(); i ++)
+		{
+			renderBitmapString(X[0] - 0.5, Y[i], GLUT_BITMAP_HELVETICA_10, to_string(X[i]));
+		}
+	}
+
 }
 
 void Grid::displayBiqudraticGrid()
 {
 	int r, g, b;
 	int n = X.size() - 2, m = Y.size() - 2;
-	glClearColor(0.2, 0.2, 0.2, 1); glClear(GL_COLOR_BUFFER_BIT);
-	glLoadIdentity();
-	glTranslatef(xPosition, yPosition, 0);
-	glScaled(500 * zPosition, 500 * zPosition, 1);
-	glColor3ub(ColorR, ColorG, ColorB);
-	glPointSize(PointSize);
-	glLineWidth(1);
-
 	if (LineFlag)
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	else
@@ -183,6 +181,19 @@ void Grid::displayBiqudraticGrid()
 			glEnd();
 		}
 	}
+	glColor3ub(0, 0, 0);
+	if (osiFlag)
+	{
+		for (int i = 0; i < X.size(); i += 2)
+		{
+			renderBitmapString(X[i], Y[0] - 0.1, GLUT_BITMAP_HELVETICA_10, to_string(X[i]));
+		}
+
+		for (int i = 0; i < Y.size(); i += 2)
+		{
+			renderBitmapString(X[0] - 0.5, Y[i], GLUT_BITMAP_HELVETICA_10, to_string(X[i]));
+		}
+	}
 	if (!LineFlag)
 	{
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
@@ -232,5 +243,4 @@ void Grid::displayBiqudraticGrid()
 			glDisable(GL_LINE_STIPPLE);
 		}
 	}
-	glFinish();
 }

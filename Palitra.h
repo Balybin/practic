@@ -1,11 +1,13 @@
 #pragma once
 #include "glut.h"
 #include "Grid.h"
+#include <string>
 
 class Palitra
 {
 public:
 	double red, blue, yellow, orange, green, minblue;
+	string Red, Blue, Yellow, Green, Minblue;
 	void make(Grid grid)
 	{
 		double max, min;
@@ -21,6 +23,11 @@ public:
 		green = min + (max - min) / 2;
 		yellow = max - (max - min) / 4;;
 		blue = min + (max - min) / 4;;
+		Red = to_string((int)red);
+		Blue = to_string((int)blue);
+		Yellow = to_string((int)yellow);
+		Green = to_string((int)green);
+		Minblue = to_string((int)minblue);
 	}
 
 	void color(int &r, int &g, int &b, double value)
