@@ -59,7 +59,10 @@ void Grid::displayBilinearGrid()
 	int r, g, b;
 	int n = X.size() - 1, m = Y.size() - 1;
 	if (LineFlag)
-		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		{
+			glLineWidth(2);
+			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		}
 	else
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
@@ -85,22 +88,22 @@ void Grid::displayBilinearGrid()
 	}
 	if (!LineFlag)
 	{
-		glColor3ub(0, 0, 0);
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-		for (int j = 0; j < m; ++j)
+		glColor3ub(255, 255, 255);
+		for (int j = 0; j < m; j ++)
 		{
-			for (int i = 0; i < n; ++i)
+			for (int i = 0; i < n; i ++)
 			{
 				glBegin(GL_QUADS);
-				palitra.color(r, g, b, U[calculatePosistion(i, j)]);
-				palitra.color(r, g, b, U[calculatePosistion(i + 1, j)]);
-				palitra.color(r, g, b, U[calculatePosistion(i + 1, j + 1)]);
-				palitra.color(r, g, b, U[calculatePosistion(i, j + 1)]);
+				glVertex2f(X[i], Y[j]);
+				glVertex2f(X[i + 1], Y[j]);
+				glVertex2f(X[i + 1], Y[j + 1]);
+				glVertex2f(X[i], Y[j + 1]);
 				glEnd();
 			}
 		}
 	}
-	glColor3ub(0, 0, 0);
+	glColor3ub(255, 255, 255);
 	if (osiFlag)
 	{
 		for (int i = 0; i < X.size(); i ++)
@@ -121,7 +124,10 @@ void Grid::displayBiqudraticGrid()
 	int r, g, b;
 	int n = X.size() - 2, m = Y.size() - 2;
 	if (LineFlag)
+	{
+		glLineWidth(2);
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	}
 	else
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
@@ -181,7 +187,7 @@ void Grid::displayBiqudraticGrid()
 			glEnd();
 		}
 	}
-	glColor3ub(0, 0, 0);
+	glColor3ub(255, 255, 255);
 	if (osiFlag)
 	{
 		for (int i = 0; i < X.size(); i += 2)

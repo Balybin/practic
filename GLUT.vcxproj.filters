@@ -49,5 +49,8 @@
     <Text Include="biquad.txt">
       <Filter>Файлы ресурсов</Filter>
     </Text>
+    <Text Include="bilin.txt">
+      <Filter>Файлы ресурсов</Filter>
+    </Text>
   </ItemGroup>
 </Project>
