@@ -199,6 +199,7 @@ void Keyboard(unsigned char key, int x, int y)
 			grid.X.clear();
 			grid.Y.clear();
 			grid.inputGrid(in);
+			palitra.make(grid);
 			in.close();
 		}
 		else
@@ -208,6 +209,7 @@ void Keyboard(unsigned char key, int x, int y)
 			grid.X.clear();
 			grid.Y.clear();
 			grid.inputGrid(in);
+			palitra.make(grid);
 			isBiquaratic = true;
 			in.close();
 		}
